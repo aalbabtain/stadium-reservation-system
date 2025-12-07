@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Messages</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="ownerNav">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home_owner.html">Stadium Owner</a>
+      <div>
+        <a href="home_owner.html" class="btn btn-outline-light me-2">Dashboard</a>
+        <button class="btn btn-light" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success" id="userNav" style="display: none;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home_user.html">Stadium User</a>
+      <div>
+        <a href="home_user.html" class="btn btn-outline-light me-2">Dashboard</a>
+        <button class="btn btn-light" id="logoutBtn2">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    // Determine user role and show appropriate navbar
+    fetch('../backend/Authentication/check_session.php')
+      .then(res => res.json())
+      .then(data => {
+        if (data.role === 'user') {
+          document.getElementById('ownerNav').style.display = 'none';
+          document.getElementById('userNav').style.display = 'block';
+          
+          // Handle logout for user navbar
+          document.getElementById('logoutBtn2').addEventListener('click', () => {
+            fetch('../backend/Authentication/logout.php')
+              .then(res => res.json())
+              .then(data => {
+                if (data.status === 'success') {
+                  window.location.href = 'index.html';
+                }
+              });
+          });
+        }
+      })
+      .catch(err => console.error(err));
+  </script>
+
+  <div class="container mt-4">
+    <h2>Messages</h2>
+    
+    <!-- Tabs for Inbox, Sent, and Compose -->
+    <ul class="nav nav-tabs mb-3" id="messageTabs">
+      <li class="nav-item">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#inbox">Inbox</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#sent">Sent</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#compose">Compose</button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- Inbox Tab -->
+      <div class="tab-pane fade show active" id="inbox">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Received Messages</h5>
+            <div id="inboxList" class="list-group">
+              <p class="text-muted">Loading messages...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sent Tab -->
+      <div class="tab-pane fade" id="sent">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Sent Messages</h5>
+            <div id="sentList" class="list-group">
+              <p class="text-muted">Loading messages...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compose Tab -->
+      <div class="tab-pane fade" id="compose">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Send New Message</h5>
+            <form id="composeForm">
+              <div class="mb-3">
+                <label for="receiverSelect" class="form-label">To:</label>
+                <select class="form-select" id="receiverSelect" name="receiver_id" required>
+                  <option value="">Select Recipient</option>
+                </select>
+                <small class="text-muted">You can message users who have made reservations at your stadiums</small>
+              </div>
+              <div class="mb-3">
+                <label for="messageText" class="form-label">Message:</label>
+                <textarea class="form-control" id="messageText" name="message" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>
