@@ -1,7 +1,9 @@
 /* General Body */
 body {
-    background: #f5f7fa; /* لون خلفية هادئ */
+    background: #f5f7fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: ltr; /* Force left-to-right */
+    text-align: left; /* Force left alignment */
 }
 
 /* Navbar */
@@ -51,9 +53,55 @@ h2, h4, h5 {
 .table {
     border-radius: 12px;
     overflow: hidden;
+    direction: ltr; /* Force LTR for tables */
+    text-align: left; /* Force left alignment */
 }
 .table th, .table td {
     vertical-align: middle !important;
+    text-align: left !important; /* Force all table cells to align left */
+}
+
+/* Stadium Images - FIXED SIZE */
+.stadium-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Status badges */
+.status-available {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.status-reserved {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* Reserve button styling */
+.btn-reserve {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-reserve:hover {
+    background-color: #218838;
+    color: white;
 }
 
 /* Stats List */
@@ -64,9 +112,29 @@ h2, h4, h5 {
     margin-bottom: 5px;
 }
 
+/* Force LTR on all text content */
+* {
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+/* Exception for centered content */
+.text-center {
+    text-align: center !important;
+}
+
+.text-muted {
+    text-align: left !important;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     #stadiumList .card {
         margin-bottom: 1rem;
+    }
+    
+    .stadium-img {
+        width: 60px;
+        height: 45px;
     }
 }
