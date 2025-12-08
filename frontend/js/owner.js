@@ -93,7 +93,7 @@ function loadStadiums() {
                     const totalSlots = parseInt(stadium.total_slots) || 0;
                     const reservedSlots = parseInt(stadium.reserved_slots) || 0;
                     const availableSlots = totalSlots - reservedSlots;
-                    const photoUrl = stadium.photo || 'https://via.placeholder.com/80x60?text=No+Image';
+                    const photoUrl = stadium.photo || 'https://via.placeholder.com/80x60?text=No+Image'; //if there is no photo it shows Default image
 
                     tbody.innerHTML += `  
                         <tr>  
