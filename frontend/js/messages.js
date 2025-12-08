@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
   // Logout functionality
   const logoutBtn = document.getElementById('logoutBtn');
-  if (logoutBtn) {
+  if (logoutBtn) { // protection if logoutBtn = null
     logoutBtn.addEventListener('click', () => {
-      fetch('../backend/Authentication/logout.php')
+      fetch('../backend/Authentication/logout.php') //send get http request to logout.php
         .then(res => res.json())
         .then(data => {
           if (data.status === 'success') {
-            window.location.href = 'index.html';
+            window.location.href = 'index.html'; //send user back to main page 
           } else {
             alert("Logout failed: " + data.message);
           }
         })
-        .catch(err => {
+        .catch(err => { //catching any errors
           console.error("Logout error:", err);
           alert("An error occurred during logout.");
         });
@@ -28,15 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const composeForm = document.getElementById('composeForm');
   if (composeForm) {
     composeForm.addEventListener('submit', e => {
-      e.preventDefault();
+      e.preventDefault(); //prevent default padge from loading after submtion
       sendMessage();
     });
   }
 
   // Tab change events to reload data
-  document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => {
+  document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tab => { //choose all buttons used in bootstrap tabs
     tab.addEventListener('shown.bs.tab', event => {
-      const target = event.target.getAttribute('data-bs-target');
+      const target = event.target.getAttribute('data-bs-target'); //read the choosen tab
       if (target === '#inbox') {
         loadInbox();
       } else if (target === '#sent') {
@@ -55,12 +55,12 @@ function loadInbox() {
       const inboxList = document.getElementById('inboxList');
       inboxList.innerHTML = '';
 
-      if (!Array.isArray(data) || data.length === 0) {
+      if (!Array.isArray(data) || data.length === 0) { //check if it is array and empty
         inboxList.innerHTML = '<p class="text-muted">No messages received yet</p>';
         return;
       }
 
-      data.forEach(msg => {
+      data.forEach(msg => { //showing all messages
         const roleLabel = msg.sender_role === 'owner' ? 'Owner' : 'User';
         const date = new Date(msg.sent_at).toLocaleString();
         
